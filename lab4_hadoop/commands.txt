@@ -1,0 +1,79 @@
+venkatesha@Lenovo:~$ hadoop version
+Hadoop 3.2.2
+Source code repository Unknown -r 7a3bc90b05f257c8ace2f76d74264906f0f7a932
+Compiled by hexiaoqiao on 2021-01-03T09:26Z
+Compiled with protoc 2.5.0
+From source with checksum 5a8f564f46624254b27f6a33126ff4
+This command was run using /home/venkatesha/hadoop-3.2.2/share/hadoop/common/hadoop-common-3.2.2.jar
+venkatesha@Lenovo:~$ ~/hadoop-3.2.2/sbin/start-dfs.sh
+Starting namenodes on [localhost]
+Starting datanodes
+Starting secondary namenodes [Lenovo]
+venkatesha@Lenovo:~$ ~/hadoop-3.2.2/sbin/start-yarn.sh
+Starting resourcemanager
+Starting nodemanagers
+venkatesha@Lenovo:~$ jps
+6018 ResourceManager
+5570 DataNode
+6563 Jps
+5396 NameNode
+5797 SecondaryNameNode
+6173 NodeManager
+venkatesha@Lenovo:~$ hadoop fs -ls /
+venkatesha@Lenovo:~$ hadoop fs -mkdir /newDataFlair
+venkatesha@Lenovo:~$ hadoop fs -ls /
+Found 1 items
+drwxr-xr-x   - venkatesha supergroup          0 2021-04-27 00:28 /newDataFlair
+venkatesha@Lenovo:~$ hdfs dfs -copyFromLocal ~/Desktop/file1.txt /newDataFlair
+venkatesha@Lenovo:~$ hdfs dfs -ls /newDataFlair
+Found 1 items
+-rw-r--r--   1 venkatesha supergroup         89 2021-04-27 00:29 /newDataFlair/file1.txt
+venkatesha@Lenovo:~$ hadoop fs -count -q /newDataFlair
+        none             inf            none             inf            1            1                 89 /newDataFlair
+venkatesha@Lenovo:~$ hdfs dfs -cat /newDataFlair/file1.txt
+hi how are you
+how is your job
+how is your family
+how is your brother
+how is your sister
+venkatesha@Lenovo:~$ hdfs dfs -mkdir /sample
+venkatesha@Lenovo:~$ hdfs dfs -cp /newDataFlair/file1.txt /sample/copyfile
+venkatesha@Lenovo:~$ hdfs dfs -cat /sample/copyfile
+hi how are you
+how is your job
+how is your family
+how is your brother
+how is your sister
+venkatesha@Lenovo:~$ hadoop fs -du -h -x /sample/copyfile
+89  89  /sample/copyfile
+venkatesha@Lenovo:~$ hadoop fs -mkdir /dataflair
+venkatesha@Lenovo:~$ hadoop fs -mv /newDataFlair/file1.txt /dataflair
+venkatesha@Lenovo:~$ hadoop fs -ls /dataflair
+Found 1 items
+-rw-r--r--   1 venkatesha supergroup         89 2021-04-27 00:29 /dataflair/file1.txt
+venkatesha@Lenovo:~$ hadoop fs -rm /sample/copyfile
+Deleted /sample/copyfile
+venkatesha@Lenovo:~$ hadoop fs -rm -R /newDataFlair
+Deleted /newDataFlair
+venkatesha@Lenovo:~$ hadoop fs -ls / 
+Found 2 items
+drwxr-xr-x   - venkatesha supergroup          0 2021-04-27 00:31 /dataflair
+drwxr-xr-x   - venkatesha supergroup          0 2021-04-27 00:31 /sample
+venkatesha@Lenovo:~$ hadoop fs -appendToFile ~/venkatesha.txt /dataflair/temp.txt
+appendToFile: /home/venkatesha/venkatesha.txt (No such file or directory)
+venkatesha@Lenovo:~$ hadoop fs -appendToFile ~/venkatesha.txt /dataflair/file1.txt
+appendToFile: /home/venkatesha/venkatesha.txt (No such file or directory)
+venkatesha@Lenovo:~$ hadoop fs -appendToFile ~/venkatesha.txt /dataflair/file1.txt
+venkatesha@Lenovo:~$ hdfs dfs -cat /dataflair/file1.txt
+hi how are you
+how is your job
+how is your family
+how is your brother
+how is your sister
+venkatesha@Lenovo:~$  hadoop fs -truncate 3 /dataflair/file1.txt
+Truncating /dataflair/file1.txt to length: 3. Wait for block recovery to complete before further updating this file.
+venkatesha@Lenovo:~$ hdfs dfs -cat /dataflair/file1.txt
+hi venkatesha@Lenovo:~$ ^C
+venkatesha@Lenovo:~$ 
+
+
